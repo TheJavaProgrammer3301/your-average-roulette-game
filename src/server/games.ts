@@ -1,4 +1,4 @@
-import { MarketplaceService, RunService } from "@rbxts/services";
+import { HttpService, MarketplaceService, RunService } from "@rbxts/services";
 import { fetch } from "shared/fetch";
 
 const endpoint = RunService.IsStudio() ? "http://localhost:8787" : "https://your-average-roulette.thejavacoder.workers.dev"
@@ -36,7 +36,7 @@ export type GameVersion = {
 	creatorTargetId: number,
 	creatingUniverseId: number | null,
 	created: string,
-	isPublished: false
+	isPublished: boolean
 }
 
 export type RouletteGame = {
@@ -73,4 +73,31 @@ export async function getGame() {
 		...data,
 		iconId
 	};
+}
+
+export async function updateMetrics(gameId: number, teleports: number, missedTeleports: number, teleportedPlayers: number[], missedPlayers: number[]) {
+	await fetch(`${endpoint}/roulette/${gameId}/metrics`, {
+		method: "PUT",
+		body: HttpService.JSONEncode({
+			teleports,
+			missedTeleports,
+			teleportedPlayers,
+			missedPlayers
+		})
+	});
+}
+
+export async function getPlayerMetrics(userId: number): Promise<{ spins: number, teleports: number }> {
+	try {
+		const data = await fetch(`${endpoint}/metrics/${userId}`).then(res => res.json());
+
+		return data as { spins: number, teleports: number };
+	} catch (error) {
+		warn(`Failed to fetch player metrics for userId ${userId}: ${error}`);
+
+		return {
+			spins: 0,
+			teleports: 0
+		};
+	}
 }
