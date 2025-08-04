@@ -40,6 +40,7 @@ function TeleportBox({ players, setPlayers }: { players: Player[], setPlayers: (
 		Size={new Vector3(12, 12, 12)}
 		CanCollide={false}
 		Anchored
+		CanQuery={false}
 		ref={partRef}
 		Event={{
 			Touched: () => updatePlayers(),

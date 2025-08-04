@@ -101,3 +101,5 @@ export async function getPlayerMetrics(userId: number): Promise<{ spins: number,
 		};
 	}
 }
+
+export async function getAllHistory(): Promise<

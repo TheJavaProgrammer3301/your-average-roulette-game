@@ -14,8 +14,15 @@ export default function SurfaceFrame({ cframe, size, children }: { cframe: CFram
 		Anchored
 		CFrame={cframe}
 		Size={size}
-		Material={Enum.Material.ForceField}
+		Color={new Color3(0.2, 0.2, 0.2)}
+		Material={Enum.Material.Metal}
 	>
+		<surfacelight 
+			Face={Enum.NormalId.Front}
+			Brightness={0.35}
+			Shadows
+			Range={60}
+		/>
 		<surfacegui
 			SizingMode={Enum.SurfaceGuiSizingMode.PixelsPerStud}
 			PixelsPerStud={48}
